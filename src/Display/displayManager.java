@@ -1,24 +1,41 @@
 package Display;
 
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.*;
 
-import org.lwjgl.glfw.GLFW;
-
-public class displayManager {
-    public static long WINDOW_ID;
+public class displayManager{
     public static final int WIDTH = 1280;
-    public static final int HEIGHT = 720;
-    public static final int FPS_CAP = 120;
+    public static final int HEIGHT = 700;
+    public static final int FPS_LIMIT = 120;
+    public static void createDisplay(){
 
-    public static void createDisplay(String title){
-        GLFW.glfwSetWindowSize(WINDOW_ID , WIDTH, HEIGHT);
+        ContextAttribs attribs = new ContextAttribs(3,2)
+                .withForwardCompatible(true)
+                .withProfileCore(true);
+
+        //Trys to set the display mode
+        try {
+            Display.setDisplayMode(new DisplayMode(WIDTH,HEIGHT));
+
+            //Creates the display
+            Display.create(new PixelFormat(), attribs);
+        } catch (LWJGLException e) {
+            throw new RuntimeException(e);
+        }
+
+        GL11.glViewport(0,0,WIDTH,HEIGHT);
+
+
+
+
     }
 
     public static void updateDisplay(){
-
-
+        Display.sync(FPS_LIMIT);
+        Display.update();
+    }
+    public static void deleteDisplay(){
+        Display.destroy();
     }
 
-    public static void closeDisplay(){
-
-    }
 }
