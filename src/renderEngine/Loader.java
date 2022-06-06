@@ -1,5 +1,6 @@
 package renderEngine;
 
+import Models.RawModel;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
@@ -23,20 +24,21 @@ public class Loader {
 
 //              PUBLIC METHODS
 
-    public RawModel loadToVAO(float[] posistions, int[] indices /*float[] textureCoords*/){
+    public RawModel loadToVAO(float[] posistions, int[] indices, float[] textureCoords){
         int vaoID = createVAO();
         bindIndicesBuffer(indices);;
         storeDataInAttributeList(0,posistions,3);
-      //  storeDataInAttributeList(1,textureCoords,2);
+        storeDataInAttributeList(1,textureCoords,2);
+        GL20.glEnableVertexAttribArray(0);
         unbindVAO();
 
         return new RawModel(vaoID, indices.length);
     }
 
-    public int loadTexture(String fileName){
+    public int loadTexture(String src){
         Texture texture = null;
         try {
-            texture = TextureLoader.getTexture("PNG",new FileInputStream("res/" + fileName + ".png"));
+            texture = TextureLoader.getTexture("PNG",new FileInputStream(src));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
