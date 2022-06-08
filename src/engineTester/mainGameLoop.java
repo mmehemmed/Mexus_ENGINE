@@ -11,7 +11,7 @@ import org.lwjgl.opengl.Display;
 
 public class mainGameLoop {
     public static void main(String[] args) {
-        displayManager display = new displayManager(1280,700,"MY no HOBO game");
+        displayManager display = new displayManager(1280,700,"3d RPG");
 
         display.createDisplay();
 
