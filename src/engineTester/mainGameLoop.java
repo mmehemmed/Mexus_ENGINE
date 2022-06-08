@@ -1,8 +1,10 @@
 package engineTester;
 
+import Entities.Entity;
 import Models.TexturedModel;
 import Shaders.StaticShader;
 import Textures.ModelTexture;
+import org.lwjgl.util.vector.Vector3f;
 import renderEngine.Loader;
 import Models.RawModel;
 import renderEngine.Renderer;
@@ -16,9 +18,8 @@ public class mainGameLoop {
         display.createDisplay();
 
         Loader loader = new Loader();
-        Renderer renderer = new Renderer();
         StaticShader shader = new StaticShader();
-
+        Renderer renderer = new Renderer(shader);
 
 
         float[] vertices = {
@@ -43,10 +44,14 @@ public class mainGameLoop {
         ModelTexture texture = new ModelTexture("res/image.png");
         TexturedModel tModel = new TexturedModel(model,texture);
 
+        Entity cube = new Entity(tModel,new Vector3f(0,0,-1),0,0,0,1);
+
         while(!Display.isCloseRequested()){
+  //          cube.increaseRotation(0,0,0);
+            cube.increasePosition(0,0,-0.08f);
             renderer.prepare();
             shader.start();
-            renderer.render(tModel);
+            renderer.render(cube,shader);
             shader.stop();
             display.updateDisplay();
         }
