@@ -13,7 +13,7 @@ import org.lwjgl.opengl.Display;
 
 public class mainGameLoop {
     public static void main(String[] args) {
-        displayManager display = new displayManager(1280,700,"3d RPG");
+        displayManager display = new displayManager(1280,700,"3d Game");
 
         display.createDisplay();
 
@@ -43,12 +43,11 @@ public class mainGameLoop {
         RawModel model = loader.loadToVAO(vertices,indices,tCoords);
         ModelTexture texture = new ModelTexture("res/image.png");
         TexturedModel tModel = new TexturedModel(model,texture);
-
         Entity cube = new Entity(tModel,new Vector3f(0,0,-1),0,0,0,1);
 
         while(!Display.isCloseRequested()){
-  //          cube.increaseRotation(0,0,0);
-            cube.increasePosition(0,0,-0.08f);
+            cube.increasePosition(0,0,-0.01f);
+            cube.increaseRotation(0,0,0.5f);
             renderer.prepare();
             shader.start();
             renderer.render(cube,shader);

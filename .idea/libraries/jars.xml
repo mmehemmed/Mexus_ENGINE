@@ -2,9 +2,11 @@
   <library name="jars">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/libs/jars" />
+      <root url="file://$PROJECT_DIR$/libs/jars" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/libs/jars" recursive="false" />
     <jarDirectory url="file://$PROJECT_DIR$/libs/jars" recursive="false" />
   </library>
 </component>
