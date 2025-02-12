@@ -24,11 +24,12 @@ public class Loader {
 
 //              PUBLIC METHODS
 
-    public RawModel loadToVAO(float[] posistions, int[] indices, float[] textureCoords){
+    public RawModel loadToVAO(float[] posistions, float[] textureCoords,float[] normals,int[] indices){
         int vaoID = createVAO();
         bindIndicesBuffer(indices);;
         storeDataInAttributeList(0,posistions,3);
         storeDataInAttributeList(1,textureCoords,2);
+        storeDataInAttributeList(2,normals,3);
         GL20.glEnableVertexAttribArray(0);
         unbindVAO();
 
@@ -47,7 +48,11 @@ public class Loader {
         int textureID = texture.getTextureID();
         textures.add(textureID);
 
-        System.out.println(textureID);
+
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
 
         return textureID;
     }

@@ -4,7 +4,11 @@ import Entities.Camera;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
+import java.util.Random;
+
 public class Maths {
+    static private Random random = new Random();
+
     public static Matrix4f createTransformationMatrix(Vector3f translation, float rx , float ry , float rz, float scale){
         Matrix4f matrix = new Matrix4f();
         matrix.setIdentity();
@@ -27,5 +31,9 @@ public class Maths {
         Vector3f negativeCameraPos = new Vector3f(-cameraPos.x,-cameraPos.y,-cameraPos.z);
         Matrix4f.translate(negativeCameraPos,viewMatrix,viewMatrix);
         return viewMatrix;
+    }
+    public static float randomFloat(float min,float max){
+        float randomFloatInRange = min + random.nextFloat() * (max - min);
+        return randomFloatInRange;
     }
 }

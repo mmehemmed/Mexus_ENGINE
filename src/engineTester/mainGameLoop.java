@@ -2,50 +2,66 @@ package engineTester;
 
 import Entities.Camera;
 import Entities.Entity;
+import Entities.Light;
 import Models.TexturedModel;
-import Shaders.StaticShader;
+
 import Textures.ModelTexture;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
-import renderEngine.Loader;
+import renderEngine.*;
 import Models.RawModel;
-import renderEngine.OBJLoader;
-import renderEngine.Renderer;
-import renderEngine.displayManager;
 import org.lwjgl.opengl.Display;
+import toolBox.Maths;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class mainGameLoop {
     public static void main(String[] args) {
+        boolean renderMode = true;
         displayManager display = new displayManager(1280,700,"3d Game");
-
         display.createDisplay();
-
         Loader loader = new Loader();
-        StaticShader shader = new StaticShader();
-        Renderer renderer = new Renderer(shader);
+        MasterRenderer renderer = new MasterRenderer();
 
 
-
-
-        RawModel model = OBJLoader.loadObjModel("stall",loader);
-        ModelTexture texture = new ModelTexture("res/stallTexture.png");
-        TexturedModel tModel = new TexturedModel(model,texture);
-        Entity cube = new Entity(tModel,new Vector3f(0,0,-30),0,0,0,1);
+        Light torch = new Light(new Vector3f(0,0,-10),new Vector3f(1, 1, 1));
         Camera camera = new Camera();
+
+
+        RawModel model = OBJLoader.loadObjModel("dragon",loader);
+        ModelTexture texture = new ModelTexture(loader.loadTexture("res/dragonTexture.png"));
+        texture.setShineDamper(10);
+        texture.setReflectivity(1);
+        TexturedModel tModel = new TexturedModel(model,texture);
+
+
+        List<Entity> entities = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            Entity dragon = new Entity(tModel,new Vector3f(Maths.randomFloat(-20,20),Maths.randomFloat(-15,15),Maths.randomFloat(-5,-80)),Maths.randomFloat(-300,300),Maths.randomFloat(-300,300),Maths.randomFloat(-300,300),0.5f);
+            entities.add(dragon);
+        }
+
 
 
 
         while(!Display.isCloseRequested()){
+            if(Keyboard.next() && Keyboard.getEventKeyState() && Keyboard.getEventKey() == Keyboard.KEY_Z){
+                if(renderMode) {
+                    GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
+                }else{
+                    GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
+                }
+                renderMode = !renderMode;
+            }
             camera.move();
-            //cube.increasePosition(0,0,-0.01f);
-            //cube.increaseRotation(0,0.2f,0);
-            renderer.prepare();
-            shader.start();
-            shader.loadViewMatrix(camera);
-            renderer.render(cube,shader);
-            shader.stop();
+            entities.forEach(renderer::processEntities);
+            renderer.render(torch,camera);
             display.updateDisplay();
         }
-        shader.cleanUp();
+        renderer.cleanUp();
         loader.cleanUP();
         display.deleteDisplay();
     }

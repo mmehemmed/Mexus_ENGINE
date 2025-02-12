@@ -4,8 +4,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.*;
 
 public class displayManager{
-    public static int WIDTH = 1280;
-    public static int HEIGHT = 700;
+    public static int WIDTH = 1600;
+    public static int HEIGHT = 900;
     public static int FPS_LIMIT = 120;
 
     public static String Title = "My Game";
