@@ -1,31 +1,55 @@
 package Entities;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.util.vector.Vector3f;
+
+import org.joml.Vector3f;
+import toolBox.Keyboard;
+
+import static org.lwjgl.glfw.GLFW.*;
 
 public class Camera {
-    private Vector3f position = new Vector3f(0,0,0);
-    private float pitch;   // height of the camera
+    private float speed = 0.7f;
+    private Vector3f position = new Vector3f(0, 10, 0);
+    private float pitch;   // height of the cameraa
     private float yaw;     //how much cameera is facing left or right
     private float roll;    // How much the camera is rolling (180 = upside down)
 
-    public Camera(){
+    public Camera() {
     }
-    public void move(){
-        if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-            position.z -= 0.06f;
+
+    public void move() {
+        if (Keyboard.isKeyDown(GLFW_KEY_LEFT_SHIFT)) {  // Go down
+            speed = 1.8f;
+        }else{
+            speed = 0.7f;
         }
-        if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-            position.z += 0.06f;
+        if (Keyboard.isKeyDown(GLFW_KEY_W)) {
+            position.z -= speed;
         }
-        if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-            position.x -= 0.06f;
+        if (Keyboard.isKeyDown(GLFW_KEY_S)) {
+            position.z += speed;
         }
-        if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-            position.x += 0.06f;
+        if (Keyboard.isKeyDown(GLFW_KEY_A)) {
+            position.x -= speed;
+        }
+        if (Keyboard.isKeyDown(GLFW_KEY_D)) {
+            position.x += speed;
+        }
+        if (Keyboard.isKeyDown(GLFW_KEY_UP)) {   // Go up
+            position.y += speed;
+        }
+        if (Keyboard.isKeyDown(GLFW_KEY_DOWN)) {   // Go up
+            position.y -= speed/2;
+        }
+        if (Keyboard.isKeyDown(GLFW_KEY_LEFT)) {   // Go up
+            yaw -= speed;
+        }
+        if (Keyboard.isKeyDown(GLFW_KEY_RIGHT)) {   // Go up
+            yaw += speed;
         }
 
+
     }
+
     public Vector3f getPosition() {
         return position;
     }

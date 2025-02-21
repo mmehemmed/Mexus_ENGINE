@@ -1,16 +1,10 @@
 package renderEngine;
 
 import Models.RawModel;
+import Textures.Texture;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
+import static org.lwjgl.opengl.GL40.*;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -30,76 +24,67 @@ public class Loader {
         storeDataInAttributeList(0,posistions,3);
         storeDataInAttributeList(1,textureCoords,2);
         storeDataInAttributeList(2,normals,3);
-        GL20.glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(0);
         unbindVAO();
 
         return new RawModel(vaoID, indices.length);
     }
 
-    public int loadTexture(String src){
-        Texture texture = null;
+    public int loadTexture(String filename) {
+        Texture texture;
         try {
-            texture = TextureLoader.getTexture("PNG",new FileInputStream(src));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            texture = new Texture(filename);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
         int textureID = texture.getTextureID();
         textures.add(textureID);
-
-
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
-
         return textureID;
     }
-
 
 
 //              PRIVATE METHODS
 
 
     private int createVAO(){
-        int vaoID = GL30.glGenVertexArrays();
+        int vaoID = glGenVertexArrays();
         vaos.add(vaoID);
-        GL30.glBindVertexArray(vaoID);
+        glBindVertexArray(vaoID);
         return vaoID;
     }
 
     public void cleanUP(){
         for (int vao:vaos){
-            GL30.glDeleteVertexArrays(vao);
+            glDeleteVertexArrays(vao);
         }
         for (int vbo:vbos){
-            GL15.glDeleteBuffers(vbo);
+            glDeleteBuffers(vbo);
         }
         for (int texture:textures){
-            GL11.glDeleteTextures(texture);
+            glDeleteTextures(texture);
         }
     }
     private void storeDataInAttributeList(int attributenumber,float[] data,int coordSize){
-        int vboID = GL15.glGenBuffers();
+        int vboID = glGenBuffers();
         vbos.add(vboID);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER,vboID);
+        glBindBuffer(GL_ARRAY_BUFFER,vboID);
         FloatBuffer buffer = storeDataInFloatBuffer(data);
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER,buffer,GL15.GL_STATIC_DRAW);
-        GL20.glVertexAttribPointer(attributenumber,coordSize, GL11.GL_FLOAT,false,0,0);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER,0);
+        glBufferData(GL_ARRAY_BUFFER,buffer,GL_STATIC_DRAW);
+        glVertexAttribPointer(attributenumber,coordSize, GL_FLOAT,false,0,0);
+        glBindBuffer(GL_ARRAY_BUFFER,0);
     }
 
     private void unbindVAO(){
-        GL30.glBindVertexArray(0);
+        glBindVertexArray(0);
     }
 
     private void bindIndicesBuffer(int[] indices){
-        int vboId = GL15.glGenBuffers();
+        int vboId = glGenBuffers();
         vbos.add(vboId);
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER,vboId);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,vboId);
         IntBuffer buffer = storeDataInIntBuffer(indices);
-        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER,buffer,GL15.GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER,buffer,GL_STATIC_DRAW);
     }
 
     private IntBuffer storeDataInIntBuffer(int[] data){

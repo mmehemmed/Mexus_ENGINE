@@ -1,7 +1,7 @@
 package Entities;
 
 import Models.TexturedModel;
-import org.lwjgl.util.vector.Vector3f;
+import org.joml.Vector3f;
 
 public class Entity {
     private TexturedModel model;

@@ -10,10 +10,8 @@ import java.util.List;
 
 
 import Models.RawModel;
-
-
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 
 public class OBJLoader {
@@ -104,9 +102,7 @@ public class OBJLoader {
     }
 
 
-    private static void processVertex(String[] vertexData, List<Integer> indices,
-                                      List<Vector2f> textures, List<Vector3f> normals, float[] textureArray,
-                                      float[] normalsArray) {
+    private static void processVertex(String[] vertexData, List<Integer> indices, List<Vector2f> textures, List<Vector3f> normals, float[] textureArray, float[] normalsArray) {
         int currentVertexPointer = Integer.parseInt(vertexData[0]) - 1;
         indices.add(currentVertexPointer);
         Vector2f currentTex = textures.get(Integer.parseInt(vertexData[1])-1);

@@ -3,7 +3,7 @@ package Shaders;
 
 import Entities.Camera;
 import Entities.Light;
-import org.lwjgl.util.vector.Matrix4f;
+import org.joml.Matrix4f;
 import toolBox.Maths;
 
 public class StaticShader extends ShaderProgram {
@@ -17,6 +17,7 @@ public class StaticShader extends ShaderProgram {
         private int location_lightColour;
         private int location_shineDamper;
         private int location_reflectivity;
+        private int location_useFakeLighting;
 
 
     public StaticShader() {
@@ -32,6 +33,7 @@ public class StaticShader extends ShaderProgram {
             location_lightColour = super.getUniformLocation("lightColour");
             location_shineDamper = super.getUniformLocation("shineDamper");
             location_reflectivity = super.getUniformLocation("reflectivity");
+            location_useFakeLighting = super.getUniformLocation("useFakeLighting");
         }
 
         @Override
@@ -40,7 +42,9 @@ public class StaticShader extends ShaderProgram {
             super.bindAttribute(1,"textureCoords");
             super.bindAttribute(2,"normal");
         }
-
+        public void loadUseFakeLighting(boolean useFakeLighting){
+            super.loadBoolean(location_useFakeLighting,useFakeLighting);
+        }
         public void loadTransformationMatrix(Matrix4f matrix){
             super.loadMatrix(location_transformationMatrix,matrix);
         }

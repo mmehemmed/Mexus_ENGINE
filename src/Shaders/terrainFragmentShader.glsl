@@ -19,7 +19,7 @@ void main(void) {
 
 
     float nDot = dot(unitNormal,unitLightVector);
-    float brightness = max(nDot,0.4);
+    float brightness = max(nDot,0.5);
     vec3 diffuse = brightness * lightColour;
 
     //SPECULAR LIGHTING
@@ -32,10 +32,7 @@ void main(void) {
 
     vec3 finalSpecularFactor = dampedFactor * reflectivity * lightColour;
 
-    vec4 textureColour = texture(textureSampler,pass_textureCoords);
-    if(textureColour.a<0.5){
-        discard;
-    }
 
-    out_Colour = vec4(diffuse,1.0) * textureColour + vec4(finalSpecularFactor,1.0);
+
+    out_Colour = vec4(diffuse,1.0) * texture(textureSampler,pass_textureCoords) + vec4(finalSpecularFactor,1.0);
 }
