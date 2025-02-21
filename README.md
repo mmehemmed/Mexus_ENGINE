@@ -27,7 +27,6 @@ A foundational ECS architecture where entities are composed of components, and s
 ## Requirements
 
 - **LWJGL 3** – Used for rendering and window management.  
-- **Slick Utils** – Used for handling input events (e.g., keyboard input).  
 
 ## Future Plans
 
