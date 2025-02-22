@@ -1,6 +1,7 @@
 package renderEngine;
 
 import Models.RawModel;
+import OBJConverter.ModelData;
 import Textures.Texture;
 import org.lwjgl.BufferUtils;
 import static org.lwjgl.opengl.GL40.*;
@@ -12,22 +13,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Loader {
-    private List<Integer> vaos = new ArrayList<Integer>();
-    private List<Integer> vbos = new ArrayList<Integer>();
-    private List<Integer> textures = new ArrayList<Integer>();
+    private List<Integer> vaos = new ArrayList<>();
+    private List<Integer> vbos = new ArrayList<>();
+    private List<Integer> textures = new ArrayList<>();
 
 //              PUBLIC METHODS
 
-    public RawModel loadToVAO(float[] posistions, float[] textureCoords,float[] normals,int[] indices){
+    public RawModel loadToVAO(ModelData modelData){
         int vaoID = createVAO();
-        bindIndicesBuffer(indices);;
-        storeDataInAttributeList(0,posistions,3);
-        storeDataInAttributeList(1,textureCoords,2);
-        storeDataInAttributeList(2,normals,3);
+        bindIndicesBuffer(modelData.getIndices());
+        storeDataInAttributeList(0,modelData.getVertices(),3);
+        storeDataInAttributeList(1,modelData.getTextureCoords(),2);
+        storeDataInAttributeList(2,modelData.getNormals(),3);
         glEnableVertexAttribArray(0);
         unbindVAO();
 
-        return new RawModel(vaoID, indices.length);
+        return new RawModel(vaoID, modelData.getIndices().length);
     }
 
     public int loadTexture(String filename) {

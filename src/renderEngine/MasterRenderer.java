@@ -21,6 +21,10 @@ public class MasterRenderer {
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000;
 
+    private static final float RED = 0.5f;
+    private static final float GREEN = 0.5f;
+    private static final float BLUE = 0.5f;
+
     private StaticShader entityShader = new StaticShader();
     private EntityRenderer entityRenderer;
 
@@ -49,11 +53,13 @@ public class MasterRenderer {
     public void render(Light Sun, Camera camera) {
         prepare();
         entityShader.start();
+        entityShader.loadSkyColour(RED,GREEN,BLUE);
         entityShader.loadLight(Sun);
         entityShader.loadViewMatrix(camera);
         entityRenderer.render(entities);
         entityShader.stop();
         terrainShader.start();
+        terrainShader.loadSkyColour(RED,GREEN,BLUE);
         terrainShader.loadLight(Sun);
         terrainShader.loadViewMatrix(camera);
         terrainRenderer.render(terrains);
@@ -70,7 +76,7 @@ public class MasterRenderer {
         if (batch != null) {
             batch.add(entity);
         } else {
-            List<Entity> newBatch = new ArrayList<Entity>();
+            List<Entity> newBatch = new ArrayList<>();
             newBatch.add(entity);
             entities.put(model, newBatch);
         }
@@ -79,7 +85,7 @@ public class MasterRenderer {
     public void prepare() {
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0.56f, 0.94f, 0.87f, 1);
+        glClearColor(RED,GREEN,BLUE,1);
 
     }
 

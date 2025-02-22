@@ -3,9 +3,9 @@ package renderEngine;
 import Models.RawModel;
 import Shaders.TerrainShader;
 import Terrains.Terrain;
-import Textures.ModelTexture;
 import static org.lwjgl.opengl.GL40.*;
 
+import Textures.TerrainTexturePack;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import toolBox.Maths;
@@ -18,6 +18,7 @@ public class TerrainRenderer {
     public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
         this.shader.start();
+        this.shader.connectTextureUnits();
         this.shader.loadProjectionMatrix(projectionMatrix);
         this.shader.stop();
     }
@@ -35,10 +36,24 @@ public class TerrainRenderer {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         glEnableVertexAttribArray(2);
-        ModelTexture texture = terrain.getTexture();
-        shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
+        shader.loadShineVariables(1,0);
+        bindTextures(terrain);
+    }
+    private void bindTextures(Terrain terrain){
+        TerrainTexturePack texturePack = terrain.getTexturePack();
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture.getID());
+        glBindTexture(GL_TEXTURE_2D, texturePack.getBackgroundTexture().getTextureID());
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, texturePack.getRedTexture().getTextureID());
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, texturePack.getGreenTexture().getTextureID());
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D, texturePack.getBlueTexture().getTextureID());
+        glActiveTexture(GL_TEXTURE4);
+        glBindTexture(GL_TEXTURE_2D, terrain.getBlendMap().getTextureID());
+
+
+
     }
 
     private void unBindTerrainModel() {

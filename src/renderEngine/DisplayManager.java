@@ -6,7 +6,6 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 import toolBox.Keyboard;
 
-import java.io.IOException;
 import java.nio.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -42,7 +41,7 @@ public class DisplayManager {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-        //glfwSetWindowIcon(window);
+
 
         // Create the window
         window = glfwCreateWindow(WIDTH, HEIGHT, TITLE, NULL, NULL);
@@ -84,7 +83,7 @@ public class DisplayManager {
 
         GL.createCapabilities();
 
-        glfwSetKeyCallback(window, new Keyboard()); //  Set keyboard callback here
+        glfwSetKeyCallback(window, keyboard); //  Set keyboard callback here
     }
 
     public static void updateDisplay() {
