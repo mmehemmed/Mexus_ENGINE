@@ -16,15 +16,18 @@ uniform mat4 viewMatrix;
 uniform vec3 lightPosition;
 uniform float useFakeLighting;
 
-const float density = 0.001;
-const float gradient = 7;
+uniform float numberOfRows;
+uniform vec2 offset;
+
+const float density = 0.0035;
+const float gradient = 5.0;
 
 void main(void){
     vec4 worldPosition = transformationMatrix * vec4(posistion, 1.0);
     vec4 positionRelativeToCamera = viewMatrix * worldPosition;
 
     gl_Position = projectionMatrix * positionRelativeToCamera;
-    pass_textureCoords = textureCoords;
+    pass_textureCoords = (textureCoords/numberOfRows)+offset;
 
     toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
 

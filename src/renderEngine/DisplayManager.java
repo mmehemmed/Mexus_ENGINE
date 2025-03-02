@@ -98,7 +98,7 @@ public class DisplayManager {
         long currentTime = getCurrentTime();
         delta = (currentTime - lastFrameTime)/1000f;
         lastFrameTime = currentTime;
-        System.out.println(delta);
+        System.out.println("FPS:  " +Math.floor(1/delta)+"  DELTA:  "+delta);
     }
 
     public static int getWindowWidth() {

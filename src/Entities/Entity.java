@@ -9,8 +9,19 @@ public class Entity {
     private float rx,ry,rz;
     private float scale;
 
+    private int textureIndex = 0;
+
     public Entity(TexturedModel model, Vector3f position, float rx, float ry, float rz, float scale) {
         this.model = model;
+        this.position = position;
+        this.rx = rx;
+        this.ry = ry;
+        this.rz = rz;
+        this.scale = scale;
+    }
+    public Entity(TexturedModel model,int index,Vector3f position, float rx, float ry, float rz, float scale) {
+        this.model = model;
+        this.textureIndex = index;
         this.position = position;
         this.rx = rx;
         this.ry = ry;
@@ -79,4 +90,14 @@ public class Entity {
     public void setScale(float scale) {
         this.scale = scale;
     }
+
+    public float getTextureOffsetX(){
+        int column = textureIndex%model.getTexture().getNumberOfRows();
+        return (float) column /model.getTexture().getNumberOfRows();
+    }
+    public float getTextureOffsetY(){
+        int row = textureIndex/model.getTexture().getNumberOfRows();
+        return (float) row /model.getTexture().getNumberOfRows();
+    }
 }
+

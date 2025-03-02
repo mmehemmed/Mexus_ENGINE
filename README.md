@@ -13,6 +13,9 @@ Supports loading OBJ files and applying textures for realistic 3D rendering.
 ### Instance Rendering  
 Allows the efficient rendering of multiple instances of objects in the game world with varying transformations.  
 
+### Terrain Rendering
+Allows for rendering terrain with custom options like Height Maps
+
 ### Camera Controls  
 A basic camera system allowing the player to move and look around the 3D world. Movement is controlled via the keyboard.  
 

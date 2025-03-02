@@ -60,14 +60,14 @@ public class TerrainShader extends ShaderProgram{
         super.loadInteger(location_blendMap,4);
     }
     public void loadSkyColour(float r,float g,float b){
-        super.loadVector(location_skyColour,new Vector3f(r,g,b));
+        super.loadVector3f(location_skyColour,new Vector3f(r,g,b));
     }
     public void loadTransformationMatrix(Matrix4f matrix){
         super.loadMatrix(location_transformationMatrix,matrix);
     }
     public void loadLight(Light light){
-        super.loadVector(location_lightPosition,light.getPosition());
-        super.loadVector(location_lightColour,light.getColour());
+        super.loadVector3f(location_lightPosition,light.getPosition());
+        super.loadVector3f(location_lightColour,light.getColour());
     }
     public void loadShineVariables(float shineDamper,float reflectivity){
         super.loadFloat(location_shineDamper,shineDamper);

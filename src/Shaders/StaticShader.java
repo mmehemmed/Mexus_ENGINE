@@ -4,6 +4,7 @@ package Shaders;
 import Entities.Camera;
 import Entities.Light;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import toolBox.Maths;
 
@@ -20,6 +21,8 @@ public class StaticShader extends ShaderProgram {
         private int location_reflectivity;
         private int location_useFakeLighting;
         private int location_skyColour;
+        private int location_numberOfRows;
+        private int location_offset;
 
     public StaticShader() {
             super(VERTEX_FILE, FRAGMENT_FILE);
@@ -36,6 +39,8 @@ public class StaticShader extends ShaderProgram {
             location_reflectivity = super.getUniformLocation("reflectivity");
             location_useFakeLighting = super.getUniformLocation("useFakeLighting");
             location_skyColour = super.getUniformLocation("skyColour");
+            location_numberOfRows = super.getUniformLocation("numberOfRows");
+            location_offset = super.getUniformLocation("offset");
         }
 
         @Override
@@ -45,7 +50,7 @@ public class StaticShader extends ShaderProgram {
             super.bindAttribute(2,"normal");
         }
         public void loadSkyColour(float r,float g,float b){
-            super.loadVector(location_skyColour,new Vector3f(r,g,b));
+            super.loadVector3f(location_skyColour,new Vector3f(r,g,b));
         }
         public void loadUseFakeLighting(boolean useFakeLighting){
             super.loadBoolean(location_useFakeLighting,useFakeLighting);
@@ -54,8 +59,8 @@ public class StaticShader extends ShaderProgram {
             super.loadMatrix(location_transformationMatrix,matrix);
         }
         public void loadLight(Light light){
-            super.loadVector(location_lightPosition,light.getPosition());
-            super.loadVector(location_lightColour,light.getColour());
+            super.loadVector3f(location_lightPosition,light.getPosition());
+            super.loadVector3f(location_lightColour,light.getColour());
         }
         public void loadShineVariables(float shineDamper,float reflectivity){
             super.loadFloat(location_shineDamper,shineDamper);
@@ -68,6 +73,10 @@ public class StaticShader extends ShaderProgram {
             Matrix4f viewMatrix = Maths.createViewMatrix(camera);
             super.loadMatrix(location_viewMatrix,viewMatrix);
         }
-
-
+        public void loadNumberOfRows(float numberOfRows){
+            super.loadFloat(location_numberOfRows,numberOfRows);
+        }
+        public void loadOffset(float offsetX,float offsetY){
+            super.loadVector2f(location_offset,new Vector2f(offsetX,offsetY));
+        }
     }

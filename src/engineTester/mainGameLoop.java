@@ -56,6 +56,7 @@ public class mainGameLoop {
         RawModel fernModel = loader.loadToVAO(OBJFileLoader.loadOBJ("Models/fern"));
         ModelTexture fernTexture = new ModelTexture(loader.loadTexture("res/Textures/fern.png"));
         fernTexture.setTransparency(true);
+        fernTexture.setNumberOfRows(2);
         TexturedModel fern = new TexturedModel(fernModel, fernTexture);
 
         RawModel grassModel = loader.loadToVAO(OBJFileLoader.loadOBJ("Models/grassModel"));
@@ -74,7 +75,7 @@ public class mainGameLoop {
 
         List<Entity> entities = new ArrayList<>();
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 100; i++) {
             float TreeX = Maths.randomFloat(0,800);
             float TreeZ = Maths.randomFloat(-800,0);
             float TreeY = terrain.getHeightOfTerrain(TreeX,TreeZ);
@@ -82,7 +83,7 @@ public class mainGameLoop {
             float FernX = Maths.randomFloat(0,800);
             float FernZ = Maths.randomFloat(-800,0);
             float FernY = terrain.getHeightOfTerrain(FernX, FernZ);
-            entities.add(new Entity(fern,new Vector3f(FernX, FernY, FernZ),0,Maths.randomFloat(0,359),0,Maths.randomFloat(1,1.2f)));
+            entities.add(new Entity(fern,Maths.randomInteger(0,4),new Vector3f(FernX, FernY, FernZ),0,Maths.randomFloat(0,359),0,Maths.randomFloat(1,1.2f)));
 //            float GrassX = Maths.randomFloat(0,800);
 //            float GrassZ = Maths.randomFloat(-800,0);
 //            float GrassY = terrain.getHeightOfTerrain(GrassX, GrassZ);

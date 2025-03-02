@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import static org.lwjgl.opengl.GL40.*;
@@ -60,8 +61,11 @@ public abstract class ShaderProgram {
         glUniform1i(location,value);
     }
 
-    protected void loadVector(int location, Vector3f vector){
+    protected void loadVector3f(int location, Vector3f vector){
         glUniform3f(location,vector.x,vector.y,vector.z);
+    }
+    protected void loadVector2f(int location, Vector2f vector){
+        glUniform2f(location,vector.x,vector.y);
     }
 
     protected void loadBoolean(int location, boolean bool){
