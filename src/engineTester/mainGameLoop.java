@@ -32,7 +32,7 @@ public class mainGameLoop {
         MasterRenderer renderer = new MasterRenderer();
 
 
-        Light torch = new Light(new Vector3f(100, 30, 2), new Vector3f(1, 1, 1));
+        Light torch = new Light(new Vector3f(220, 350, -250), new Vector3f(1, 1, 1));
         Camera camera = new Camera();
 
         //       TERRAiN TEXTURES
@@ -43,8 +43,6 @@ public class mainGameLoop {
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("res/Textures/blendMap.png"));
 
         TerrainTexturePack texturePack = new TerrainTexturePack(grassy,dirt,flowery,path);
-
-
 
 
 
@@ -71,18 +69,30 @@ public class mainGameLoop {
         grassTexture.setUseFakeLighting(true);
         TexturedModel flower = new TexturedModel(grassModel, flowerTexture);
 
-        Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap);
-        Terrain terrain2 = new Terrain(-1,-1,loader,texturePack,blendMap);
+        Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap,"Textures/terrainHeightMap");
+        //Terrain terrain2 = new Terrain(-1,-1,loader,texturePack,blendMap,"Textures/terrainHeightMap");
 
         List<Entity> entities = new ArrayList<>();
 
-        for (int i = 0; i < 100; i++) {
-            entities.add(new Entity(tree,new Vector3f(Maths.randomFloat(-800,800),0,Maths.randomFloat(-800,0)),0,Maths.randomFloat(0,359),0,Maths.randomFloat(5,5.9f)));
-            entities.add(new Entity(fern,new Vector3f(Maths.randomFloat(-800,800),0,Maths.randomFloat(-800,0)),0,Maths.randomFloat(0,359),0,Maths.randomFloat(1,1.2f)));
-            entities.add(new Entity(grass,new Vector3f(Maths.randomFloat(-790,790),0,Maths.randomFloat(-790,-10)),0,Maths.randomFloat(0,359),0,Maths.randomFloat(1.4f,1.5f)));
-            entities.add(new Entity(flower,new Vector3f(Maths.randomFloat(-770,770),0,Maths.randomFloat(-770,-30)),0,Maths.randomFloat(0,359),0,Maths.randomFloat(3.2f,4.5f)));
+        for (int i = 0; i < 50; i++) {
+            float TreeX = Maths.randomFloat(0,800);
+            float TreeZ = Maths.randomFloat(-800,0);
+            float TreeY = terrain.getHeightOfTerrain(TreeX,TreeZ);
+            entities.add(new Entity(tree,new Vector3f(TreeX,TreeY,TreeZ),0,Maths.randomFloat(0,359),0,Maths.randomFloat(5,5.9f)));
+            float FernX = Maths.randomFloat(0,800);
+            float FernZ = Maths.randomFloat(-800,0);
+            float FernY = terrain.getHeightOfTerrain(FernX, FernZ);
+            entities.add(new Entity(fern,new Vector3f(FernX, FernY, FernZ),0,Maths.randomFloat(0,359),0,Maths.randomFloat(1,1.2f)));
+//            float GrassX = Maths.randomFloat(0,800);
+//            float GrassZ = Maths.randomFloat(-800,0);
+//            float GrassY = terrain.getHeightOfTerrain(GrassX, GrassZ);
+//            entities.add(new Entity(grass,new Vector3f(GrassX, GrassY, GrassZ),0,Maths.randomFloat(0,359),0,Maths.randomFloat(1.4f,1.5f)));
+//            float FlowerX = Maths.randomFloat(0,800);
+//            float FlowerZ = Maths.randomFloat(-800,0);
+//            float FlowerY = terrain.getHeightOfTerrain(FlowerX, FlowerZ);
+//            entities.add(new Entity(flower,new Vector3f(FlowerX, FlowerY, FlowerZ),0,Maths.randomFloat(0,359),0,Maths.randomFloat(3.2f,4.5f)));
         }
-
+        entities.add(new Entity(tree,torch.getPosition(),0,0,0,10.0f));
 
 
 
@@ -98,11 +108,11 @@ public class mainGameLoop {
                 renderMode = !renderMode;
             }
             renderer.processTerrain(terrain);
-            renderer.processTerrain(terrain2);
+            //renderer.processTerrain(terrain2);
             entities.forEach(renderer::processEntities);
             camera.move();
             renderer.render(torch, camera);
-            //torch.setPosition(new Vector3f(torch.getPosition().x+0.1f,torch.getPosition().y,torch.getPosition().z));
+            //torch.setPosition(new Vector3f(torch.getPosition().x,torch.getPosition().y,torch.getPosition().z+3f));
             DisplayManager.updateDisplay();
             Keyboard.update();
         }

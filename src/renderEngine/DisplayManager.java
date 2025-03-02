@@ -19,6 +19,10 @@ public class DisplayManager {
     private static final int WIDTH = 1600;
     private static final int HEIGHT = 900;
     private static final String TITLE = "Mexus";
+
+    private static long lastFrameTime;
+    private static float delta;
+
     private static Keyboard keyboard = new Keyboard();
 
     public static long window;
@@ -82,7 +86,7 @@ public class DisplayManager {
 
 
         GL.createCapabilities();
-
+        lastFrameTime = getCurrentTime();
         glfwSetKeyCallback(window, keyboard); //  Set keyboard callback here
     }
 
@@ -91,6 +95,10 @@ public class DisplayManager {
 
 
         glfwPollEvents();
+        long currentTime = getCurrentTime();
+        delta = (currentTime - lastFrameTime)/1000f;
+        lastFrameTime = currentTime;
+        System.out.println(delta);
     }
 
     public static int getWindowWidth() {
@@ -113,5 +121,13 @@ public class DisplayManager {
         // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+    }
+
+    public static long getCurrentTime() {
+        return (long) (GLFW.glfwGetTime() * 1000);
+    }
+
+    public static float getDelta() {
+        return delta;
     }
 }
