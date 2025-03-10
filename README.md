@@ -1,6 +1,6 @@
 # Mexus
 
-*Mexus* is a personal 3D game engine prototype created using LWJGL 3 and Slick Utils. It focuses on rendering OBJ models, applying Phong lighting, and supporting an ECS (Entity-Component-System) architecture. Currently, it serves as a foundation for potential game projects, including the possibility of creating a city builder in the future.
+*Mexus* is a personal 3D game engine prototype created using LWJGL 3. It focuses on rendering OBJ models, applying Phong lighting, and supporting an ECS (Entity-Component-System) architecture. Currently, it serves as a foundation for potential game projects, including the possibility of creating a city builder in the future.
 
 ## Features
 
