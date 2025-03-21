@@ -11,7 +11,7 @@ import static org.lwjgl.glfw.GLFW.*;
 public class Camera {
     private float speed = 90f;
     private Vector3f position = new Vector3f(0, 10, 0);
-    private float pitch;   // height of the cameraa
+    private float pitch;   // How much the camera is angled to up or down
     private float yaw;     //how much cameera is facing left or right
     private float roll;    // How much the camera is rolling (180 = upside down)
 

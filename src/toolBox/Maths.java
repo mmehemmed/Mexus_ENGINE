@@ -1,15 +1,14 @@
 package toolBox;
 
 import Entities.Camera;
-import org.joml.Matrix4f;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
+import org.joml.*;
 
 
+import java.lang.Math;
 import java.util.Random;
 
 public class Maths {
-    static private Random random = new Random();
+    static private final Random random = new Random();
 
     public static Matrix4f createTransformationMatrix(Vector3f translation, float rx , float ry , float rz, float scale){
         Matrix4f matrix = new Matrix4f();
@@ -23,6 +22,16 @@ public class Maths {
 
         return matrix;
     }
+    public static Matrix4f createTransformationMatrix(Vector2f translation, Vector2f scale) {
+        Matrix4f matrix = new Matrix4f();
+        matrix.identity();  // Set to identity
+        matrix.translate(translation.x, translation.y, 0);  // Apply translation
+        matrix.scale(scale.x, scale.y, 1.0f);  // Apply scale (z should be 1.0f)
+
+        return matrix;
+    }
+
+
     public static Matrix4f createViewMatrix(Camera camera){
         Matrix4f viewMatrix = new Matrix4f();
         viewMatrix.identity();
@@ -35,12 +44,10 @@ public class Maths {
         return viewMatrix;
     }
     public static float randomFloat(float min,float max){
-        float randomFloatInRange = min + random.nextFloat() * (max - min);
-        return randomFloatInRange;
+        return min + random.nextFloat() * (max - min);
     }
     public static int randomInteger(int min,int max){
-        int randomIntegerInRange = min + random.nextInt(max - min + 1);;
-        return randomIntegerInRange;
+        return min + random.nextInt(max - min + 1);
     }
 
     public static float barryCentric(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f pos) {

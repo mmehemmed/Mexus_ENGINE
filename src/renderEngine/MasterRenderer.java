@@ -10,10 +10,7 @@ import Terrains.Terrain;
 import org.joml.Matrix4f;
 import static org.lwjgl.opengl.GL40.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MasterRenderer {
 
@@ -50,17 +47,18 @@ public class MasterRenderer {
         glDisable(GL_CULL_FACE);
     }
 
-    public void render(Light Sun, Camera camera) {
+    public void render(List<Light> Lights, Camera camera) {
+        Lights.sort(Comparator.comparingDouble(v -> v.getPosition().distanceSquared(camera.getPosition())));
         prepare();
         entityShader.start();
         entityShader.loadSkyColour(RED,GREEN,BLUE);
-        entityShader.loadLight(Sun);
+        entityShader.loadLights(Lights);
         entityShader.loadViewMatrix(camera);
         entityRenderer.render(entities);
         entityShader.stop();
         terrainShader.start();
         terrainShader.loadSkyColour(RED,GREEN,BLUE);
-        terrainShader.loadLight(Sun);
+        terrainShader.loadLights(Lights);
         terrainShader.loadViewMatrix(camera);
         terrainRenderer.render(terrains);
         terrainShader.stop();
