@@ -31,7 +31,7 @@ public class mainGameLoop {
         boolean renderMode = true;
         DisplayManager.createDisplay();
         Loader loader = new Loader();
-        MasterRenderer renderer = new MasterRenderer();
+        MasterRenderer renderer = new MasterRenderer(loader);
         GUIRenderer guiRenderer = new GUIRenderer(loader);
         Camera camera = new Camera();
 
@@ -96,19 +96,19 @@ public class mainGameLoop {
 
         List<Light> lights= new ArrayList<>();
 
-        lights.add(new Light(new Vector3f(10,-35,-10),new Vector3f(0,0,1),new Vector3f(1.0f,0.002f,0.0001f)));
+        lights.add(new Light(new Vector3f(10,-35,-10),new Vector3f(0,0,1),new Vector3f(0.8f,0.002f,0.0001f)));
         entities.add(new Entity(lamp, new Vector3f(10,-35,-10),0,0,0,1.0f));
 
-        lights.add(new Light(new Vector3f(790,-35,-10),new Vector3f(0,0,1),new Vector3f(1.0f,0.002f,0.0001f)));
+        lights.add(new Light(new Vector3f(790,-35,-10),new Vector3f(0,0,1),new Vector3f(0.8f,0.002f,0.0001f)));
         entities.add(new Entity(lamp, new Vector3f(790,-35,-10),0,0,0,1.0f));
 
-        lights.add(new Light(new Vector3f(10,-35,-790),new Vector3f(0,0,1),new Vector3f(1.0f,0.002f,0.0001f)));
+        lights.add(new Light(new Vector3f(10,-35,-790),new Vector3f(0,0,1),new Vector3f(0.8f,0.002f,0.0001f)));
         entities.add(new Entity(lamp, new Vector3f(10,-35,-790),0,0,0,1.0f));
 
-        lights.add(new Light(new Vector3f(790,-35,-790),new Vector3f(0,0,1),new Vector3f(1.0f,0.002f,0.0001f)));
+        lights.add(new Light(new Vector3f(790,-35,-790),new Vector3f(0,0,1),new Vector3f(0.8f,0.002f,0.0001f)));
         entities.add(new Entity(lamp, new Vector3f(790,-35,-790),0,0,0,1.0f));
 
-        lights.add(new Light(new Vector3f(400,-35,-400),new Vector3f(0,0,1),new Vector3f(1.0f,0.002f,0.0001f)));
+        lights.add(new Light(new Vector3f(400,-35,-400),new Vector3f(0,0,1),new Vector3f(0.8f,0.002f,0.0001f)));
         entities.add(new Entity(lamp, new Vector3f(400,-35,-400),0,0,0,1.0f));
 
         while (!glfwWindowShouldClose(DisplayManager.window)) {
